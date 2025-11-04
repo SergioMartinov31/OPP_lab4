@@ -1,0 +1,5 @@
+/Users/sergejmartynov/Projects/OPP_lab4/build/CMakeFiles/Lab4.dir
+/Users/sergejmartynov/Projects/OPP_lab4/build/CMakeFiles/Lab4_tests.dir
+/Users/sergejmartynov/Projects/OPP_lab4/build/CMakeFiles/test.dir
+/Users/sergejmartynov/Projects/OPP_lab4/build/CMakeFiles/edit_cache.dir
+/Users/sergejmartynov/Projects/OPP_lab4/build/CMakeFiles/rebuild_cache.dir
