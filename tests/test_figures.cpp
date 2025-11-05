@@ -3,6 +3,7 @@
 #include "../include/Trapezoid.h"
 #include "../include/Rhombus.h"
 #include "../include/Pentagon.h"
+#include "../include/Array.h"
 #include <sstream>
 #include <cmath>
 #include <memory>
@@ -50,12 +51,6 @@ TEST(TrapezoidTest, OperatorDouble) {
     Trapezoid<double> t({0,0}, {4,0}, {3,2}, {0,2});
     double s = double(t);
     EXPECT_NEAR(s, 7.0, 1e-6);
-}
-
-TEST(TrapezoidTest, CrossTypeEquality) {
-    Trapezoid<int> t({0,0}, {4,0}, {3,2}, {0,2});
-    Rhombus<int> r({0,0}, {1,1}, {2,0}, {1,-1});
-    EXPECT_FALSE(t == r);
 }
 
 TEST(TrapezoidTest, InputOutput) {
@@ -109,9 +104,7 @@ TEST(RhombusTest, Invalid) {
 
 // ------------------ PENTAGON ------------------
 TEST(PentagonTest, AreaCenter) {
-    std::array<Point<double>,5> pts = {
-        { {0,0}, {2,0}, {3,1}, {1.5,3}, {0,1} }
-    };
+    std::array<Point<double>,5> pts = { { {0,0}, {2,0}, {3,1}, {1.5,3}, {0,1} } };
     Pentagon<double> p(pts);
     EXPECT_GT(p.surface(), 0.0);
 
@@ -174,6 +167,38 @@ TEST(CrossTypeTest, PentagonTrapezoid) {
     EXPECT_FALSE(p == t);
 }
 
+// ------------------ NON-POLYMORPHIC CONTAINER EXAMPLE ------------------
+TEST(ArrayTest, NonPolymorphicContainer) {
+    Array<Trapezoid<int>> arr;
+    arr.add(Trapezoid<int>({0,0}, {4,0}, {3,2}, {0,2}));
+    arr.add(Trapezoid<int>({1,1}, {5,1}, {4,3}, {2,3}));
+
+    EXPECT_EQ(arr.getSize(), 2);
+    double total = 0.0;
+    for (size_t i = 0; i < arr.getSize(); ++i)
+        total += double(arr[i]);
+
+    EXPECT_NEAR(total, 13.0, 1e-6); // проверка суммарной площади
+}
+
+// ------------------ POLYMORPHIC CONTAINER CHECK ------------------
+TEST(ArrayTest, Polymorphism) {
+    Array<std::shared_ptr<Figure<int>>> arr;
+    arr.add(std::make_shared<Trapezoid<int>>(Point<int>(0,0), Point<int>(4,0), Point<int>(3,2), Point<int>(0,2)));
+    arr.add(std::make_shared<Rhombus<int>>(Point<int>(0,0), Point<int>(1,1), Point<int>(2,0), Point<int>(1,-1)));
+    std::array<Point<int>,5> pentpts = { { {0,0}, {1,0}, {2,1}, {1,2}, {0,1} } };
+    arr.add(std::make_shared<Pentagon<int>>(pentpts));
+
+    auto &fig0 = *arr[0];
+    auto &fig1 = *arr[1];
+    auto &fig2 = *arr[2];
+
+    EXPECT_NE(typeid(fig0), typeid(Figure<int>));
+    EXPECT_NE(typeid(fig1), typeid(Figure<int>));
+    EXPECT_NE(typeid(fig2), typeid(Figure<int>));
+}
+
+// ------------------ MAIN ------------------
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
