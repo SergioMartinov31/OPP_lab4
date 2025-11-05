@@ -18,7 +18,6 @@ public:
     Point() = default;
     Point(T X, T Y) : x(X), y(Y) {}
 
-    // --- сравнение ---
     bool operator==(const Point& other) const noexcept {
         return x == other.x && y == other.y;
     }
@@ -27,7 +26,6 @@ public:
         return !(*this == other);
     }
 
-    // --- операции ---
     Point operator-(const Point& other) const noexcept {
         return Point(x - other.x, y - other.y);
     }
@@ -43,7 +41,6 @@ public:
         return std::sqrt(static_cast<double>(dx * dx + dy * dy));
     }
 
-    // --- ввод / вывод ---
     friend std::istream& operator>>(std::istream& is, Point& p) {
         return is >> p.x >> p.y;
     }
@@ -55,4 +52,4 @@ public:
     ~Point() = default;
 };
 
-#endif // POINT_H
+#endif 

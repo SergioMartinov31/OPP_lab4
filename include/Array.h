@@ -18,28 +18,24 @@ public:
     Array& operator=(const Array&) = delete;
     ~Array() = default;
 
-    // === Добавление элемента ===
-    // 1) Для shared_ptr, если T — указатель
+
     void add(std::shared_ptr<typename std::remove_pointer<T>::type> elem) {
         if (size_ >= capacity_) resize();
         data_[size_++] = std::move(elem);
     }
 
-    // 2) Для обычных объектов
     template <class U = T>
     std::enable_if_t<!std::is_pointer_v<U>> add(const U& elem) {
         if (size_ >= capacity_) resize();
         data_[size_++] = elem;
     }
 
-    // 3) Для перемещения объектов
     template <class U = T>
     std::enable_if_t<!std::is_pointer_v<U>> add(U&& elem) {
         if (size_ >= capacity_) resize();
         data_[size_++] = std::move(elem);
     }
 
-    // === Удаление по индексу ===
     void remove(size_t index) {
         if (index >= size_) throw std::out_of_range("Invalid index");
         for (size_t i = index; i + 1 < size_; ++i)
@@ -47,7 +43,6 @@ public:
         --size_;
     }
 
-    // === Доступ к элементу ===
     T& operator[](size_t index) {
         if (index >= size_) throw std::out_of_range("Index out of range");
         return data_[index];
@@ -58,7 +53,6 @@ public:
         return data_[index];
     }
 
-    // === Печать площадей ===
     void printSurfaces() const {
         std::cout << std::fixed << std::setprecision(4);
         for (size_t i = 0; i < size_; ++i) {
@@ -72,7 +66,6 @@ public:
         }
     }
 
-    // === Печать центров ===
     void printCenters() const {
         for (size_t i = 0; i < size_; ++i) {
             if constexpr (requires { data_[i].center(); }) {
@@ -85,7 +78,6 @@ public:
         }
     }
 
-    // === Общая площадь ===
     double totalSurface() const {
         double total = 0;
         for (size_t i = 0; i < size_; ++i) {
@@ -98,7 +90,6 @@ public:
         return total;
     }
 
-    // === Служебные методы ===
     size_t getSize() const { return size_; }
     size_t getCapacity() const { return capacity_; }
 
@@ -116,4 +107,4 @@ private:
     size_t capacity_;
 };
 
-#endif // ARRAY_H
+#endif 

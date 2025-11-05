@@ -115,4 +115,4 @@ public:
     ~Trapezoid() override = default;
 };
 
-#endif // TRAPEZOID_H
+#endif
