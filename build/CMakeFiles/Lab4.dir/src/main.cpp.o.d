@@ -822,11 +822,11 @@ CMakeFiles/Lab4.dir/src/main.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__locale_dir/locale_base_api/bsd_locale_defaults.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/cstdarg \
-  /Users/sergejmartynov/Projects/OPP_lab4/include/Point.h \
-  /Users/sergejmartynov/Projects/OPP_lab4/include/Figure.h \
-  /Users/sergejmartynov/Projects/OPP_lab4/include/Array.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip \
+  /Users/sergejmartynov/Projects/OPP_lab4/include/Array.h \
   /Users/sergejmartynov/Projects/OPP_lab4/include/Trapezoid.h \
+  /Users/sergejmartynov/Projects/OPP_lab4/include/Figure.h \
+  /Users/sergejmartynov/Projects/OPP_lab4/include/Point.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/array \
   /Users/sergejmartynov/Projects/OPP_lab4/include/Rhombus.h \
   /Users/sergejmartynov/Projects/OPP_lab4/include/Pentagon.h
