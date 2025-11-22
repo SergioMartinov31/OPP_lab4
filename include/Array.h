@@ -7,6 +7,12 @@
 #include <iomanip>
 #include <type_traits>
 
+template <typename>
+struct is_shared_ptr : std::false_type {};
+
+template <typename U>
+struct is_shared_ptr<std::shared_ptr<U>> : std::true_type {};
+
 template<typename T>
 class Array {
 public:
@@ -18,20 +24,24 @@ public:
     Array& operator=(const Array&) = delete;
     ~Array() = default;
 
-
-    void add(std::shared_ptr<typename std::remove_pointer<T>::type> elem) {
+    // Для shared_ptr типов
+    template <typename U>
+    requires is_shared_ptr<T>::value
+    void add(std::shared_ptr<U> elem) {
         if (size_ >= capacity_) resize();
         data_[size_++] = std::move(elem);
     }
 
+    // Для не-pointer типов (lvalue)
     template <class U = T>
-    std::enable_if_t<!std::is_pointer_v<U>> add(const U& elem) {
+    std::enable_if_t<!std::is_pointer_v<U> && !is_shared_ptr<U>::value> add(const U& elem) {
         if (size_ >= capacity_) resize();
         data_[size_++] = elem;
     }
 
+    // Для не-pointer типов (rvalue)
     template <class U = T>
-    std::enable_if_t<!std::is_pointer_v<U>> add(U&& elem) {
+    std::enable_if_t<!std::is_pointer_v<U> && !is_shared_ptr<U>::value> add(U&& elem) {
         if (size_ >= capacity_) resize();
         data_[size_++] = std::move(elem);
     }
@@ -107,4 +117,4 @@ private:
     size_t capacity_;
 };
 
-#endif 
+#endif
