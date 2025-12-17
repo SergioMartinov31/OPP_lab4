@@ -1,25 +1,34 @@
-#ifndef POINT_H
-#define POINT_H
+#pragma once
 
 #include <iostream>
-#include <cmath>
-#include <concepts>
 #include <type_traits>
+#include <concepts>
+#include <cmath>
 
-template<typename T>
+template <typename T>
 concept Scalar = std::is_arithmetic_v<T>;
 
-template<Scalar T>
+template <Scalar T>
 class Point {
-public:
-    T x{0};
-    T y{0};
+private:
+    T _x{};
+    T _y{};
 
+public:
     Point() = default;
-    Point(T X, T Y) : x(X), y(Y) {}
+    Point(T x, T y) : _x(x), _y(y) {}
+
+    Point(const Point&) = default;
+    Point(Point&&) noexcept = default;
+
+    Point& operator=(const Point&) = default;
+    Point& operator=(Point&&) noexcept = default;
+
+    T x() const noexcept { return _x; }
+    T y() const noexcept { return _y; }
 
     bool operator==(const Point& other) const noexcept {
-        return x == other.x && y == other.y;
+        return _x == other._x && _y == other._y;
     }
 
     bool operator!=(const Point& other) const noexcept {
@@ -27,29 +36,25 @@ public:
     }
 
     Point operator-(const Point& other) const noexcept {
-        return Point(x - other.x, y - other.y);
+        return Point(_x - other._x, _y - other._y);
     }
 
     double dot(const Point& other) const noexcept {
-        return static_cast<double>(x) * static_cast<double>(other.x) +
-               static_cast<double>(y) * static_cast<double>(other.y);
+        return static_cast<double>(_x) * static_cast<double>(other._x) +
+               static_cast<double>(_y) * static_cast<double>(other._y);
     }
 
     double distanceTo(const Point& other) const noexcept {
-        long double dx = static_cast<long double>(x) - static_cast<long double>(other.x);
-        long double dy = static_cast<long double>(y) - static_cast<long double>(other.y);
+        long double dx = static_cast<long double>(_x) - static_cast<long double>(other._x);
+        long double dy = static_cast<long double>(_y) - static_cast<long double>(other._y);
         return std::sqrt(static_cast<double>(dx * dx + dy * dy));
     }
 
-    friend std::istream& operator>>(std::istream& is, Point& p) {
-        return is >> p.x >> p.y;
-    }
-
     friend std::ostream& operator<<(std::ostream& os, const Point& p) {
-        return os << "(" << p.x << ", " << p.y << ")";
+        return os << "(" << p._x << ", " << p._y << ")";
     }
 
-    ~Point() = default;
+    friend std::istream& operator>>(std::istream& is, Point& p) {
+        return is >> p._x >> p._y;
+    }
 };
-
-#endif 
